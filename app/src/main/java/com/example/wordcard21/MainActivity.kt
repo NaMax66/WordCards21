@@ -2,6 +2,7 @@ package com.example.wordcard21
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -11,9 +12,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btnAdd: Button = findViewById(R.id.btnAdd)
+        val editTextTargetLng : EditText = findViewById(R.id.editTextTargetLng)
+        val editTextNativeLng : EditText = findViewById(R.id.editTextNativeLng)
+
         btnAdd.setOnClickListener {
-            // your code to perform when the user clicks on the button
-            Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
+            var msg: String = ""
+
+            val targetWord: String = editTextTargetLng.text.toString()
+            val nativeWord: String = editTextNativeLng.text.toString()
+
+            if (targetWord == "" || nativeWord == "") {
+                msg = "Заполните оба поля"
+            }
+            else {
+                msg = "$targetWord: $nativeWord"
+
+            }
+
+            Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
         }
     }
 }
