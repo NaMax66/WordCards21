@@ -25,26 +25,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
+
             <EditText
                 android:id="@+id/editTextTargetLng"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginEnd="10dp"
                 android:ems="10"
                 android:hint="@string/en"
                 android:inputType="text"
-                android:layout_marginEnd="10dp"
-                />
+                tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/editTextNativeLng"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:focusable="true"
                 android:hint="@string/ru"
                 android:inputType="text"
                 android:layout_marginEnd="10dp"
-                />
+                tools:ignore="Autofill" />
         </LinearLayout>
 
         <Button
@@ -53,6 +54,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/add" />
     </LinearLayout>
 
