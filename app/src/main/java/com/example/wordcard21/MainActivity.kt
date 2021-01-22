@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.*
 import java.util.concurrent.Executors
+import kotlin.random.Random.Default.nextInt
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,32 +24,27 @@ class MainActivity : AppCompatActivity() {
                 AppDatabase::class.java, "users"
         ).build()
 
-        val userDao = db.userDao()
+        val wordPairDao = db.wordpairDao()
 
-        var uid = 10
+        val uid = nextInt()
 
         btnAdd.setOnClickListener {
 
-            val targetWord: String = editTextTargetLng.text.toString()
             val nativeWord: String = editTextNativeLng.text.toString()
+            val targetWord: String = editTextTargetLng.text.toString()
 
-
-            val msg = if (targetWord == "" || nativeWord == "") {
-                "Заполните оба поля"
-            } else {
-                "$targetWord: $nativeWord"
-
+            if (targetWord == "" || nativeWord == "") {
+                Toast.makeText(this@MainActivity, "Заполните оба поля", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
             Executors.newSingleThreadExecutor().execute {
-                userDao.insertAll(User(uid, "Max", "Naidovich"))
-                val users: List<User> = userDao.getAll()
+                wordPairDao.insertAll(WordPair(uid, nativeWord, targetWord))
+                val users: List<WordPair> = wordPairDao.getAll()
                 Log.d("STATE", users.toString())
-                uid++
             }
 
-
-            Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "$targetWord: $nativeWord added", Toast.LENGTH_SHORT).show()
         }
     }
 }
