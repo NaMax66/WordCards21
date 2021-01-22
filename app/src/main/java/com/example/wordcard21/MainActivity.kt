@@ -2,13 +2,12 @@ package com.example.wordcard21
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.*
 import java.util.concurrent.Executors
 import kotlin.random.Random.Default.nextInt
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val btnAdd: Button = findViewById(R.id.btnAdd)
         val editTextTargetLng : EditText = findViewById(R.id.editTextTargetLng)
         val editTextNativeLng : EditText = findViewById(R.id.editTextNativeLng)
+        val listView: ListView = findViewById(R.id.wordList)
 
         val db = Room.databaseBuilder(
                 applicationContext,
@@ -34,17 +34,22 @@ class MainActivity : AppCompatActivity() {
             val targetWord: String = editTextTargetLng.text.toString()
 
             if (targetWord == "" || nativeWord == "") {
-                Toast.makeText(this@MainActivity, "Заполните оба поля", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Fill both fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            val text = "$targetWord: $nativeWord added"
 
             Executors.newSingleThreadExecutor().execute {
                 wordPairDao.insertAll(WordPair(uid, nativeWord, targetWord))
                 val users: List<WordPair> = wordPairDao.getAll()
                 Log.d("STATE", users.toString())
+                val textView = TextView(this)
+                textView.text = text
+                // listView.addView(textView)
             }
 
-            Toast.makeText(this@MainActivity, "$targetWord: $nativeWord added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, text, Toast.LENGTH_SHORT).show()
         }
     }
 }
